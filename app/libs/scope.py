@@ -8,6 +8,7 @@
 
 class Scope:
     """
+        Scope 基类
         使用set自动去重
         api 接口视图函数
         module 模块名
@@ -18,9 +19,13 @@ class Scope:
     forbidden = {}
 
     def __add__(self, other):
+        """ 使对象支持相加操作 """
         self.allow_api = self.allow_api | other.allow_api
         self.allow_module = self.allow_module | other.allow_module
         self.forbidden = self.forbidden | other.forbidden
+
+        # list 去重,直接用set就不需要去重了
+        # self.allow_api = list(set(self.allow_api))
 
         # 返回自己可链式调用
         return self

@@ -34,9 +34,10 @@ class Book(Base):
     @orm.reconstructor
     def __init__(self):
         """
-            最终形态: 配合base基类中的 keys、hide、append
             @orm.reconstructor
             这个装饰,可以让模型每次被调用是执行构造函数(默认是不执行的)
+            不能更改类变量,会影响所有实例化对象
+            最终形态: 配合base基类中的 keys、hide、append
         """
         super().__init__()
         self.fields = ['id', 'title', 'author', 'binding',

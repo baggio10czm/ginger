@@ -18,6 +18,7 @@ api = Redprint('book')
 @api.route('/search')
 def search():
     form = BookSearchForm().validate_for_api()
+    # 支持模糊搜索
     q = '%' + form.q.data + '%'
     # book = Book()
     # 元类 ORM

@@ -15,7 +15,8 @@ class ClientForm(Form):
     """
         通用的用户验证
         wtforms 抛出的异常不会终止代码往下执行
-        需要继承HTTPException
+        在validators/base中重写了wtforms一些方法
+        使wtforms可抛出异常
     """
     account = StringField(validators=[DataRequired(message="账户必须填写!"), length(
         min=5, max=32
@@ -29,6 +30,7 @@ class ClientForm(Form):
             client = ClientTypeEnum(value.data)
         except ValueError as e:
             raise e
+        # 返回枚举类型,方便使用
         self.type.data = client
 
 

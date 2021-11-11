@@ -16,6 +16,7 @@ from app.libs.scope import is_in_scope
 # Authorization 对应的是 BearerToken
 # auth = HTTPTokenAuth()
 auth = HTTPBasicAuth()
+# namedtuple 支持.访问不需['']
 User = namedtuple('User', ['uid', 'ac_type', 'scope'])
 
 

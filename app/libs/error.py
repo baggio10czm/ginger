@@ -2,7 +2,7 @@
  User: Czm
  Date: 2021/11/6
  Time: 16:31
- Describe:
+ Describe:重写HTTPException的一些方法
 """
 from flask import request, json
 from werkzeug.exceptions import HTTPException

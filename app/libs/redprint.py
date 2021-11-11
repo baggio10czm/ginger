@@ -14,7 +14,8 @@ class Redprint:
     def route(self, rule, **options):
         """
             装饰器route
-            保存传入的值,留在下面注册中使用
+            先保存传入的值,留在下面注册中使用
+            因为在 自定义的redprint中没有 add_url_rule 方法
         """
         def decorator(f):
             self.mound.append((f, rule, options))

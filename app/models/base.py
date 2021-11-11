@@ -64,8 +64,9 @@ class Base(db.Model):
 
     def __getitem__(self, item):
         """
-            ['']时可以获取对于的属性值
+            使对象可支持['']访问
             具体原理在 v1/user.py 中有说明
+            getattr 拿到对象属性名对应的值
         """
         return getattr(self, item)
 
@@ -91,11 +92,13 @@ class Base(db.Model):
         return self.fields
 
     def hide(self, *keys):
+        """ 隐藏字段可链式调用.append  """
         for key in keys:
             self.fields.remove(key)
         return self
 
     def append(self, *keys):
+        """ 增加字段可链式调用.hide  """
         for key in keys:
             self.fields.append(key)
         return self

@@ -66,10 +66,11 @@ def get_user():
     # }
     # return jsonify(r)
 
-    # 在app.py:
+    # 序列化模型在app.py:
     # 类变量无法用__dict__获取,需要在构造函数里赋值(实例变量)
     # dict()可拿到类变量和实例变量
-    # 所以 要想拿到user模型中想要的字段 只需要重写keys 和 __getitem__方法就好
+    # 所以要想拿到user模型中想要的字段 只需要重写keys(可拿到的属性名)
+    # dict需要['xx']访问 __getitem__设置可用['']访问的属性名
     # return jsonify(Test())
     return jsonify(user)
 

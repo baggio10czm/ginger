@@ -2,7 +2,7 @@
  User: Czm
  Date: 2021/11/8
  Time: 11:10
- Describe:
+ Describe:重写wtforms的一些方法,使它可抛出异常
 """
 from flask import request
 from wtforms import Form
@@ -20,6 +20,7 @@ class BaseForm(Form):
         super(BaseForm, self).__init__(data=data, **args)
 
     def validate_for_api(self):
+        # 调用父类的validate方法进行参数验证
         valid = super(BaseForm, self).validate()
         if not valid:
             # 返回 form.errors 的错误信息
