@@ -5,6 +5,8 @@
 """
 from contextlib import contextmanager
 from datetime import datetime
+
+from flask import current_app
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, BaseQuery
 from sqlalchemy import SmallInteger, Column, Integer
 
@@ -13,14 +15,16 @@ from app.libs.error_code import NotFound
 
 class SQLAlchemy(_SQLAlchemy):
     @contextmanager
-    def auto_commit(self):
+    def auto_commit(self, throw=None):
         try:
             yield
             self.session.commit()
         except Exception as e:
-            # 最好在所有db.session.commit()的地方+ try……except
-            self.session.rollback()
-            raise e
+            db.session.rollback()
+            # %r 用来做 debug 比较好，因为它会显示变量的原始数据
+            current_app.logger.exception('%r' % e)
+            if throw:
+                raise e
 
 
 class Query(BaseQuery):
@@ -79,6 +83,7 @@ class Base(db.Model):
     @property
     def create_datetime(self):
         if self.create_time:
+            # 时间戳转换成时间对象,后续就可以用 strftime('%Y-%m-%d') 转成日期
             return datetime.fromtimestamp(self.create_time)
         else:
             return None

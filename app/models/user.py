@@ -12,7 +12,7 @@ from app.models.base import Base, db
 
 
 class User(Base):
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(24), unique=True, nullable=False)
     nickname = Column(String(24), unique=True)
     # 普通用户=1 管理员=2
@@ -56,9 +56,12 @@ class User(Base):
 
     @staticmethod
     def verify(email, password):
-        user = User.query.filter_by(email=email).first_or_404()
-        # if not user:
-        #     raise NotFound(msg='账户或密码错误!')
+        # 虽然用first_or_404可以不用谢 if not use……两行代码
+        # 但只能报一个统一的资源无法找到，个人感觉还是不太安全（不管是用户名无效还是密码错误都统一提示）
+        # user = User.query.filter_by(email=email).first_or_404()
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            raise NotFound(msg='账户或密码错误!')
         if not user.check_password(password):
             raise AuthFailed(msg='账户或密码错误!')
         # scope名需要跟libs中的scope文件中的权限名相同
